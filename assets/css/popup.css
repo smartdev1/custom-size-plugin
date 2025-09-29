@@ -1,0 +1,500 @@
+/* --- Overlay --- */
+#csp-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: none;
+  z-index: 9998;
+}
+
+/* --- Modal --- */
+#csp-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  width: 95%;
+  max-width: 1200px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 0;
+  border-radius: 12px;
+  display: none;
+  z-index: 9999;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+/* --- Header --- */
+#csp-modal h2 {
+  margin: 0;
+  font-size: 24px;
+  color: #888;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  padding: 30px 40px 20px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+/* --- Close Button --- */
+.csp-modal-close {
+  position: absolute;
+  top: 30px;
+  right: 40px;
+  font-size: 32px;
+  color: #999;
+  background: none;
+  border: none;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  z-index: 10;
+}
+
+.csp-modal-close:hover {
+  color: #333;
+}
+
+/* --- Modal Inner --- */
+.csp-modal-inner {
+  padding: 0;
+}
+
+/* --- Profile Select --- */
+.csp-profile-select {
+  padding: 20px 40px;
+  background: #f9f9f9;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.csp-profile-select label {
+  display: block;
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.csp-profile-select select {
+  width: 100%;
+  max-width: 400px;
+  padding: 10px 40px 10px 16px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #333;
+  background: white url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="8" viewBox="0 0 12 8"><path fill="%23999" d="M1.41 0L6 4.59L10.59 0L12 1.41l-6 6l-6-6z"/></svg>') no-repeat right 16px center;
+  appearance: none;
+  cursor: pointer;
+}
+
+/* --- Progress Bar --- */
+.csp-progress {
+  padding: 30px 40px;
+  position: relative;
+}
+
+.csp-progressbar {
+  position: absolute;
+  top: 50%;
+  left: 40px;
+  right: 40px;
+  height: 2px;
+  background: #e0e0e0;
+  transform: translateY(-50%);
+}
+
+.csp-progress-fill {
+  height: 100%;
+  background: #8b6f47;
+  transition: width 0.3s ease;
+}
+
+.csp-steps {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+.csp-steps .csp-step {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  background: white;
+  border: 2px solid #e0e0e0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  color: #999;
+  position: relative;
+  z-index: 2;
+}
+
+.csp-steps .csp-step.active {
+  background: #8b6f47;
+  border-color: #8b6f47;
+  color: white;
+}
+
+.csp-steps .csp-step.completed {
+  background: #8b6f47;
+  border-color: #8b6f47;
+  color: white;
+}
+
+.csp-steps .csp-step::after {
+  content: attr(data-label);
+  position: absolute;
+  top: 45px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 13px;
+  color: #666;
+  white-space: nowrap;
+}
+
+/* --- Form Content --- */
+#csp-measurements-form {
+  display: flex;
+  padding: 40px;
+  gap: 60px;
+  min-height: 500px;
+}
+
+/* --- Left Side: Body Diagram --- */
+.csp-body-diagram {
+  flex: 0 0 400px;
+  display: flex !important;
+  flex-direction: column;
+}
+
+.csp-body-figures {
+  display: flex !important;
+  justify-content: center;
+  gap: 40px;
+  margin-bottom: 30px;
+  min-height: 320px;
+}
+
+.csp-body-figure {
+  width: 120px;
+  position: relative;
+  display: block !important;
+}
+
+.csp-body-figure svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.csp-measurement-point {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  background: #4a90e2;
+  border: 3px solid white;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 10px;
+  font-weight: bold;
+}
+
+/* Points de mesure - Vue de face */
+.csp-body-figure.front .csp-measurement-point:nth-child(2) { top: 15%; left: 10%; }
+.csp-body-figure.front .csp-measurement-point:nth-child(3) { top: 18%; right: 10%; }
+.csp-body-figure.front .csp-measurement-point:nth-child(4) { top: 25%; left: -5%; }
+.csp-body-figure.front .csp-measurement-point:nth-child(5) { top: 28%; left: 20%; }
+.csp-body-figure.front .csp-measurement-point:nth-child(6) { top: 35%; left: 15%; }
+.csp-body-figure.front .csp-measurement-point:nth-child(7) { top: 45%; left: 22%; }
+.csp-body-figure.front .csp-measurement-point:nth-child(8) { top: 60%; left: 18%; }
+.csp-body-figure.front .csp-measurement-point:nth-child(9) { top: 85%; right: 25%; }
+
+/* Points de mesure - Vue de dos */
+.csp-body-figure.back .csp-measurement-point:nth-child(2) { top: 12%; left: 50%; transform: translateX(-50%); }
+.csp-body-figure.back .csp-measurement-point:nth-child(3) { top: 22%; left: 10%; }
+.csp-body-figure.back .csp-measurement-point:nth-child(4) { top: 22%; right: 10%; }
+.csp-body-figure.back .csp-measurement-point:nth-child(5) { top: 52%; right: -5%; }
+.csp-body-figure.back .csp-measurement-point:nth-child(6) { top: 68%; right: 5%; }
+.csp-body-figure.back .csp-measurement-point:nth-child(7) { top: 88%; left: 50%; transform: translateX(-50%); }
+
+.csp-info-box {
+  background: #f9f9f9;
+  padding: 25px;
+  border-radius: 8px;
+  margin-top: auto;
+  display: block !important;
+}
+
+.csp-info-box h3 {
+  font-size: 16px;
+  color: #333;
+  margin: 0 0 12px 0;
+  font-weight: 500;
+}
+
+.csp-info-box p {
+  font-size: 13px;
+  color: #666;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* --- Right Side: Form --- */
+.csp-form-section {
+  flex: 1;
+  display: flex !important;
+  flex-direction: column;
+}
+
+.csp-step-content {
+  display: none !important;
+  flex: 1;
+  flex-direction: column;
+}
+
+.csp-step-content.active {
+  display: flex !important;
+  flex-direction: column;
+}
+
+.csp-step-content h3 {
+  font-size: 20px;
+  color: #333;
+  margin: 0 0 30px 0;
+  font-weight: 500;
+}
+
+.csp-step-content label {
+  display: block !important;
+  margin-bottom: 25px;
+  font-size: 14px;
+  color: #333;
+  font-weight: 500;
+}
+
+.csp-step-content input[type="text"],
+.csp-step-content input[type="number"],
+.csp-step-content select {
+  display: block !important;
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #333;
+  background: white;
+  margin-top: 8px;
+}
+
+.csp-step-content input:focus,
+.csp-step-content select:focus {
+  outline: none;
+  border-color: #8b6f47;
+}
+
+.csp-step-content input::placeholder {
+  color: #bbb;
+}
+
+/* --- Summary --- */
+#csp-summary {
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+#csp-summary ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#csp-summary li {
+  padding: 10px 0;
+  border-bottom: 1px solid #e0e0e0;
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+}
+
+#csp-summary li:last-child {
+  border-bottom: none;
+}
+
+#csp-summary li strong {
+  color: #333;
+}
+
+#csp-summary li span {
+  color: #666;
+}
+
+/* --- Navigation Buttons --- */
+.csp-nav {
+  margin-top: auto;
+  padding-top: 30px;
+  border-top: 1px solid #e0e0e0;
+  display: flex !important;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.csp-nav button {
+  background: #8b6f47 !important;
+  color: #fff !important;
+  border: none !important;
+  padding: 12px 24px !important;
+  border-radius: 6px !important;
+  cursor: pointer;
+  font-size: 14px !important;
+  font-weight: 500;
+  transition: background 0.2s ease;
+  display: inline-block !important;
+}
+
+.csp-nav button:hover {
+  background: #72573a !important;
+}
+
+.csp-nav .csp-prev {
+  background: #f5f5f5 !important;
+  color: #333 !important;
+}
+
+.csp-nav .csp-prev:hover {
+  background: #e0e0e0 !important;
+}
+
+.csp-nav .csp-submit {
+  background: #2e7d32 !important;
+}
+
+.csp-nav .csp-submit:hover {
+  background: #1b5e20 !important;
+}
+
+/* Force affichage des boutons */
+.csp-nav button[style*="display: none"],
+.csp-nav button[style*="display:none"] {
+  display: inline-block !important;
+}
+
+/* --- Responsive --- */
+@media (max-width: 1024px) {
+  #csp-measurements-form {
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .csp-body-diagram {
+    flex: none;
+  }
+
+  .csp-body-figures {
+    gap: 30px;
+  }
+
+  .csp-body-figure {
+    width: 100px;
+  }
+}
+
+/* Bouton "Ajouter vos mensurations" */
+.csp-add-measurements-wrap {
+  margin: 15px 0;
+}
+
+.csp-open-modal.button {
+  background: #fff !important;
+  color: #555 !important;
+  border: 1px solid #ccc !important;
+  border-radius: 4px !important;
+  padding: 10px 20px !important;
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  text-transform: none !important;
+  box-shadow: none !important;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.csp-open-modal.button:hover {
+  background: #f9f9f9 !important;
+  border-color: #999 !important;
+  color: #333 !important;
+}
+
+
+@media (max-width: 768px) {
+  #csp-modal {
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    max-height: 100%;
+    border-radius: 0;
+  }
+
+  #csp-modal h2 {
+    font-size: 20px;
+    padding: 20px;
+  }
+
+  .csp-modal-close {
+    top: 20px;
+    right: 20px;
+  }
+
+  .csp-progress {
+    padding: 20px;
+  }
+
+  .csp-progressbar {
+    left: 20px;
+    right: 20px;
+  }
+
+  .csp-steps .csp-step::after {
+    font-size: 11px;
+    top: 40px;
+  }
+
+  #csp-measurements-form {
+    padding: 20px;
+  }
+
+  .csp-body-figures {
+    gap: 20px;
+  }
+
+  .csp-body-figure {
+    width: 80px;
+  }
+
+  .csp-measurement-point {
+    width: 20px;
+    height: 20px;
+    font-size: 9px;
+  }
+
+  .csp-nav {
+    flex-direction: column;
+  }
+
+  .csp-nav button {
+    width: 100%;
+  }
+}
