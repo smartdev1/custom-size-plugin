@@ -1,0 +1,45 @@
+/* Styles pour la page de réglages */
+.csp-settings-wrap .form-table {
+    background: #fff;
+    padding: 20px;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.csp-settings-wrap .form-table th {
+    width: 250px;
+    padding: 20px 10px 20px 0;
+}
+
+.csp-settings-wrap .form-table td {
+    padding: 15px 10px;
+}
+
+.csp-settings-wrap fieldset label {
+    display: block;
+    margin-bottom: 8px;
+}
+
+.csp-settings-wrap .description {
+    font-style: italic;
+    color: #666;
+    margin-top: 5px;
+}
+
+.csp-settings-section {
+    background: #fff;
+    border: 1px solid #ccd0d4;
+    border-radius: 4px;
+    padding: 20px;
+    margin: 20px 0;
+}
+
+.csp-settings-section h2 {
+    margin-top: 0;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.csp-color-field {
+    width: 100px !important;
+}
