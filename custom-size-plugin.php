@@ -140,39 +140,83 @@ function csp_enqueue_assets() {
     $allowed_roles = csp_get_setting('allowed_roles', array('customer', 'subscriber'));
     $has_allowed_role = array_intersect($allowed_roles, $user->roles);
     
-    if (empty($has_allowed_role) && !is_admin()) {
+    // Permettre aux administrateurs de voir le popup même s'ils ne sont pas dans les rôles autorisés
+    $is_admin = in_array('administrator', $user->roles);
+    
+    if (empty($has_allowed_role) && !$is_admin && !is_admin()) {
         return;
     }
 
-    // always enqueue minimal CSS/JS since popup can be inserted by shortcode/widget too
-    wp_enqueue_style( 'csp-popup-css', CSP_PLUGIN_URL . 'assets/css/popup.css', array(), '1.0' );
-    wp_enqueue_script( 'csp-popup-js', CSP_PLUGIN_URL . 'assets/js/popup.js', array(), '1.0', true );
+    // Charger APRÈS WooCommerce pour éviter les conflits de style
+    $dependencies = array();
+    if (class_exists('WooCommerce')) {
+        $dependencies[] = 'woocommerce-general';
+    }
+    
+    wp_enqueue_style( 
+        'csp-popup-css', 
+        CSP_PLUGIN_URL . 'assets/css/popup.css', 
+        $dependencies, 
+        '1.0' 
+    );
+    
+    wp_enqueue_script( 
+        'csp-popup-js', 
+        CSP_PLUGIN_URL . 'assets/js/popup.js', 
+        array('jquery'), 
+        '1.0', 
+        true 
+    );
 
     // Appliquer la couleur principale via CSS personnalisé
-    $primary_color = csp_get_setting('primary_color', '#2271b1');
+    $primary_color = csp_get_setting('primary_color', '#8b6f47');
     $custom_css = csp_get_setting('custom_css', '');
     
     $css = "
-        .csp-open-modal, 
-        .csp-popup-next, 
-        .csp-popup-submit {
+        /* Boutons principaux */
+        .csp-open-modal.button, 
+        .csp-next, 
+        .csp-submit {
+            background-color: {$primary_color} !important;
+            border-color: {$primary_color} !important;
+            color: #fff !important;
+        }
+        
+        .csp-open-modal.button:hover, 
+        .csp-next:hover, 
+        .csp-submit:hover {
+            background-color: {$primary_color} !important;
+            border-color: {$primary_color} !important;
+            opacity: 0.9;
+        }
+        
+        /* Barre de progression */
+        .csp-progress-fill {
+            background-color: {$primary_color} !important;
+        }
+        
+        /* Étapes actives */
+        .csp-step.active {
             background-color: {$primary_color} !important;
             border-color: {$primary_color} !important;
         }
-        .csp-popup-progress-bar {
-            background-color: {$primary_color} !important;
-        }
+        
+        /* CSS personnalisé utilisateur */
         {$custom_css}
     ";
     
     wp_add_inline_style('csp-popup-css', $css);
 
-    wp_localize_script( 'csp-popup-js', 'csp_ajax_obj', array(
-        'ajax_url' => admin_url( 'admin-ajax.php' ),
-        'nonce'    => wp_create_nonce( 'csp_save_measurements' ),
+    // Préparer les données pour JavaScript
+    $ajax_data = array(
+        'ajax_url' => admin_url('admin-ajax.php'),
+        'nonce'    => wp_create_nonce('csp_save_measurements'),
         'required_fields' => csp_get_setting('required_fields', array('taille', 'poids')),
-        'popup_title' => csp_get_setting('popup_title', 'Vos mensurations')
-    ) );
+        'popup_title' => csp_get_setting('popup_title', 'Vos mensurations'),
+        'button_text' => csp_get_setting('button_text', 'Ajouter vos mensurations')
+    );
+
+    wp_localize_script('csp-popup-js', 'csp_ajax_obj', $ajax_data);
 }
 add_action( 'wp_enqueue_scripts', 'csp_enqueue_assets' );
 
@@ -205,6 +249,7 @@ function csp_inject_button() {
     echo '</div>';
     CSP_Popup_Render::render_popup_template();
 }
+
 add_action( 'woocommerce_after_add_to_cart_form', 'csp_inject_button' );
 
 /* Shortcode for button avec vérification des réglages */

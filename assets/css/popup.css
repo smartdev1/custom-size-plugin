@@ -52,13 +52,22 @@
   cursor: pointer;
   line-height: 1;
   padding: 0;
-  width: 32px;
-  height: 32px;
-  z-index: 10;
+  width: 40px;
+  height: 40px;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
 }
 
 .csp-modal-close:hover {
   color: #333;
+  transform: rotate(90deg);
+}
+
+.csp-modal-close:active {
+  transform: rotate(90deg) scale(0.95);
 }
 
 /* --- Modal Inner --- */
@@ -370,6 +379,35 @@
   background: #72573a !important;
 }
 
+/* Styles de base pour le bouton */
+.csp-open-modal.button {
+  background: #fff !important;
+  color: #555 !important;
+  border: 1px solid #ccc !important;
+  border-radius: 4px !important;
+  padding: 10px 20px !important;
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  text-transform: none !important;
+  box-shadow: none !important;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  display: inline-block !important;
+  text-decoration: none !important;
+}
+
+.csp-open-modal.button:hover {
+  background: #f9f9f9 !important;
+  border-color: #999 !important;
+  color: #333 !important;
+}
+
+/* Override par la couleur principale (appliqué via inline CSS) */
+.csp-open-modal.button {
+  background-color: var(--primary-color, #8b6f47) !important;
+  border-color: var(--primary-color, #8b6f47) !important;
+  color: #fff !important;
+}
 .csp-nav .csp-prev {
   background: #f5f5f5 !important;
   color: #333 !important;
@@ -393,6 +431,46 @@
   display: inline-block !important;
 }
 
+/* --- États d'erreur --- */
+.csp-step-content input.error,
+.csp-step-content select.error {
+  border-color: #d32f2f;
+  background-color: #ffebee;
+}
+
+.csp-step-content input.error:focus,
+.csp-step-content select.error:focus {
+  border-color: #d32f2f;
+  outline-color: #d32f2f;
+}
+
+/* --- Animation d'ouverture --- */
+#csp-modal,
+#csp-overlay {
+  animation-duration: 0.3s;
+  animation-timing-function: ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -60%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+
 /* --- Responsive --- */
 @media (max-width: 1024px) {
   #csp-measurements-form {
@@ -412,32 +490,6 @@
     width: 100px;
   }
 }
-
-/* Bouton "Ajouter vos mensurations" */
-.csp-add-measurements-wrap {
-  margin: 15px 0;
-}
-
-.csp-open-modal.button {
-  background: #fff !important;
-  color: #555 !important;
-  border: 1px solid #ccc !important;
-  border-radius: 4px !important;
-  padding: 10px 20px !important;
-  font-size: 14px !important;
-  font-weight: 400 !important;
-  text-transform: none !important;
-  box-shadow: none !important;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-}
-
-.csp-open-modal.button:hover {
-  background: #f9f9f9 !important;
-  border-color: #999 !important;
-  color: #333 !important;
-}
-
 
 @media (max-width: 768px) {
   #csp-modal {
