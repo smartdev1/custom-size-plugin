@@ -177,4 +177,96 @@ class CSP_Save_Data {
             }
         }
     }
+
+    // Vérifier si l'utilisateur a déjà des mensurations
+public function handle_check_measurements() {
+    check_ajax_referer('csp_measurements_nonce', 'security');
+
+    if (!is_user_logged_in()) {
+        wp_send_json_error(array('message' => 'Utilisateur non connecté.'));
+    }
+
+    global $wpdb;
+    $table = $wpdb->prefix . 'csp_measurements';
+    $user_id = intval($_POST['user_id']);
+    $exists = $wpdb->get_row($wpdb->prepare("SELECT id, raw_data FROM $table WHERE user_id = %d ORDER BY created_at DESC LIMIT 1", $user_id));
+
+    if ($exists) {
+        wp_send_json_success(array(
+            'exists' => true,
+            'measurements' => maybe_unserialize($exists->raw_data)
+        ));
+    } else {
+        wp_send_json_success(array('exists' => false));
+    }
+}
+
+// Sauvegarder les mensurations dans la base de données
+public function handle_save_measurements() {
+    check_ajax_referer('csp_measurements_nonce', 'security');
+
+    if (!is_user_logged_in()) {
+        wp_send_json_error(array('message' => 'Utilisateur non connecté.'));
+    }
+
+    global $wpdb;
+    $table = $wpdb->prefix . 'csp_measurements';
+    $user_id = intval($_POST['user_id']);
+    $measurements = json_decode(stripslashes($_POST['measurements']), true);
+
+    // Valider et nettoyer les données
+    $sanitized_data = array();
+    foreach ($measurements as $key => $value) {
+        $sanitized_data[$key] = sanitize_text_field($value);
+    }
+
+    $wpdb->insert(
+        $table,
+        array(
+            'user_id'   => $user_id,
+            'raw_data'  => maybe_serialize($sanitized_data),
+            'created_at'=> current_time('mysql'),
+        ),
+        array('%d', '%s', '%s')
+    );
+
+    wp_send_json_success();
+}
+
+// Mettre à jour les mensurations existantes
+public function handle_update_measurements() {
+    check_ajax_referer('csp_measurements_nonce', 'security');
+
+    if (!is_user_logged_in()) {
+        wp_send_json_error(array('message' => 'Utilisateur non connecté.'));
+    }
+
+    global $wpdb;
+    $table = $wpdb->prefix . 'csp_measurements';
+    $user_id = intval($_POST['user_id']);
+    $measurements = json_decode(stripslashes($_POST['measurements']), true);
+
+    // Valider et nettoyer les données
+    $sanitized_data = array();
+    foreach ($measurements as $key => $value) {
+        $sanitized_data[$key] = sanitize_text_field($value);
+    }
+
+    // Récupérer l'ID du dernier enregistrement
+    $last_entry = $wpdb->get_row($wpdb->prepare("SELECT id FROM $table WHERE user_id = %d ORDER BY created_at DESC LIMIT 1", $user_id));
+
+    if ($last_entry) {
+        $wpdb->update(
+            $table,
+            array('raw_data' => maybe_serialize($sanitized_data)),
+            array('id' => $last_entry->id),
+            array('%s'),
+            array('%d')
+        );
+        wp_send_json_success();
+    } else {
+        wp_send_json_error(array('message' => 'Aucune mensuration existante trouvée.'));
+    }
+}
+
 }
