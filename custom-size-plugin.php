@@ -736,7 +736,7 @@ function csp_render_admin_profiles()
     <?php
 }
 
-/* Page des réglages admin */
+/* Page des réglages administration */
 function csp_render_admin_settings()
 {
     if (!current_user_can('manage_options')) {
@@ -750,6 +750,7 @@ function csp_render_admin_settings()
         <?php
         if (isset($_GET['settings-updated'])) {
             add_settings_error('csp_messages', 'csp_message', __('Réglages sauvegardés avec succès.', 'custom-size-plugin'), 'success');
+            
             // Nettoyage du cache après mise à jour des réglages
             delete_transient(CSP_TRANSIENT_PREFIX . 'dashboard_stats');
         }
