@@ -10,7 +10,16 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-/* Déclaration des constantes */
+/**
+ * Déclaration des constantes globales du plugin.
+ *
+ * Ces constantes sont utilisées à travers tout le plugin pour définir
+ * les chemins, les URL de base, la version de la base de données et
+ * le préfixe des transients utilisés pour le cache temporaire.
+ *
+ * @package Custom_Size_Plugin
+ * @since 1.0.0
+ */
 define('CSP_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('CSP_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('CSP_DB_VERSION', '1.1');

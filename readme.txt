@@ -1,6 +1,5 @@
 === Custom Size Plugin ===
 Contributors: aristideghislain
-Donate link: https://votre-site.com/donate
 Tags: woocommerce, measurements, customization, user-profiles
 Requires at least: 5.0
 Tested up to: 6.4

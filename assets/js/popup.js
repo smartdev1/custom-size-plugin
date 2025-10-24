@@ -153,6 +153,7 @@ document.addEventListener("DOMContentLoaded", function () {
       e.target.classList.remove("error");
     }
   });
+  
 
   // Ouvrir modal
   document.addEventListener("click", function (e) {

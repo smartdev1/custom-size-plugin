@@ -1,9 +1,12 @@
 <?php
 
 /**
- * Enqueue scripts and styles for the plugin
+ * Enqueue scripts and styles for the Custom Size Plugin
+ *
+ * @package Custom_Size_Plugin
  */
-function csp_enqueue_scripts() {
+function csp_enqueue_scripts()
+{
     // Enqueue CSS
     wp_enqueue_style(
         'csp-popup-style',
@@ -33,7 +36,8 @@ add_action('wp_enqueue_scripts', 'csp_enqueue_scripts');
 /**
  * AJAX handler to load profile data
  */
-function csp_ajax_load_profile() {
+function csp_ajax_load_profile()
+{
     check_ajax_referer('csp_ajax_nonce', 'nonce');
 
     if (!isset($_POST['profile_id'])) {
@@ -64,7 +68,8 @@ add_action('wp_ajax_csp_load_profile', 'csp_ajax_load_profile');
 /**
  * AJAX handler to save measurements
  */
-function csp_ajax_save_measurements() {
+function csp_ajax_save_measurements()
+{
     check_ajax_referer('csp_save_measurements', 'csp_nonce');
 
     if (!is_user_logged_in()) {
@@ -126,7 +131,8 @@ add_action('wp_ajax_csp_save_measurements', 'csp_ajax_save_measurements');
 /**
  * Create database table on plugin activation
  */
-function csp_create_measurements_table() {
+function csp_create_measurements_table()
+{
     global $wpdb;
     $table_name = $wpdb->prefix . 'csp_measurements';
     $charset_collate = $wpdb->get_charset_collate();

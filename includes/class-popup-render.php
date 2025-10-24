@@ -4,15 +4,33 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * CSP_Popup_Render
- * - Responsible to render the popup template when needed
+ * CSP_Popup_Render Class
+ *
+ * Cette classe est responsable de l'affichage du template du popup
+ * dans le plugin Custom Size Plugin. Elle utilise le pattern Singleton
+ * pour garantir une seule instance de la classe.
+ *
+ * Gère le rendu du popup de mensurations sur les pages produits WooCommerce.
+ * Elle inclut dynamiquement le fichier `templates/popup-form.php` si celui-ci existe.
+ *
+ * Exemple d'utilisation :
+ * ```php
+ * CSP_Popup_Render::render_popup_template();
+ * ```
+ *
+ * 
+ * @package    Custom_Size_Plugin
+ * @subpackage Includes
+ * @since      1.0.0
  */
+
+
 class CSP_Popup_Render {
 
     private static $instance = null;
 
     private function __construct() {
-        // no init logic required
+        
     }
 
     public static function get_instance() {
@@ -29,3 +47,4 @@ class CSP_Popup_Render {
         }
     }
 }
+
